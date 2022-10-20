@@ -2,9 +2,12 @@ pipeline {
 
 agent any
 
+triggers {
+    pollSCM '* * * * * '
+  }
+
 tools {
-    nodejs "Node"
-    
+    nodejs "Node"   
 }
     stages {
         stage('Git Code Checkout ') {
@@ -15,7 +18,7 @@ tools {
             }
         }
 
-        stage('Install NPM Packages') {
+        stage('NPM Install') {
             steps {
                 sh 'npm install'
             }
@@ -27,9 +30,9 @@ tools {
             }
         }
 
-        stage('Docker Build Image with Artifacts') { 
+        stage('Docker Build ') { 
             steps {
-                sh '/usr/local/bin/docker build -t ${JOB_NAME.}.toLowerCase():${BUILD_ID} .' 
+                sh '/usr/local/bin/docker build -t ${JOB_NAME}:${BUILD_ID} .' 
             }
         }
         
@@ -41,9 +44,15 @@ tools {
             }
         }
 
-        stage('Docker Run Container ') { 
+        stage('Docker Run  ') { 
             steps {
                 sh '/usr/local/bin/docker run -t -d -p 80:80 --name nginxdemo ${JOB_NAME}:${BUILD_ID}' 
+            }
+        }
+
+        stage('Check status'){
+            steps{
+                sh 'curl -I http://localhost:80'
             }
         }
 

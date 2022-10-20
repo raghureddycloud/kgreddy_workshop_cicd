@@ -54,4 +54,9 @@ tools {
         }
 
     }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
 }

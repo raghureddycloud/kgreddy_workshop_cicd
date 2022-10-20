@@ -2,9 +2,6 @@ pipeline {
 
 agent any
 
-triggers {
-    pollSCM '* * * * * '
-  }
 
 tools {
     nodejs "Node"   

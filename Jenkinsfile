@@ -2,11 +2,10 @@ pipeline {
 
 agent any
 
-
 tools {
     nodejs "Node"   
 }
-    stages {
+stages {
         stage('Git Code Checkout ') {
             steps {
                 script{
@@ -54,7 +53,8 @@ tools {
         }
 
     }
-    post { 
+
+post { 
         always { 
             cleanWs()
         }
